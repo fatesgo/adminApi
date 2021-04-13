@@ -3,6 +3,7 @@ package com.fatesgo.admin.api.mapper;
 import com.fatesgo.admin.api.pojo.User;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Options;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Service;
 
@@ -12,7 +13,7 @@ public interface UserMapper {
      * @param id 主键
      * @return user对象
      */
-    @Select("select id,user_name from sys_user where id=#{id}")
+    @Select("select * from sys_user where id=#{id}")
     User queryUserById(int id);
 
 

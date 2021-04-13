@@ -5,7 +5,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-@MapperScan(value = "mapper文件所在的包路径, ex:com.fatesfo.admin.api.mapper")
+@MapperScan(basePackages = "com.fatesgo.admin.api.mapper")
 public class FatesgoAdminApplication {
 
     public static void main(String[] args) {

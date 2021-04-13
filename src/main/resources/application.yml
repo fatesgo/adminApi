@@ -1,8 +1,8 @@
-
+#httpç«¯å£å·
 server:
-  # ·şÎñÆ÷µÄHTTP¶Ë¿Ú£¬Ä¬ÈÏÎª8080
   port: 8001
 
+#æ•°æ®æºé…ç½®
 spring:
   datasource:
     driver-class-name: com.mysql.jdbc.Driver

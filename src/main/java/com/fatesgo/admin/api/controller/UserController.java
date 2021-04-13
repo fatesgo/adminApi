@@ -11,10 +11,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class UserController {
+    @Autowired(required = false)
     private  UserMapper userMapper;
-
-
-
     @GetMapping("/user/{id}")
     public User queryUser(@PathVariable("id") int id) {
         User user = userMapper.queryUserById(id);
