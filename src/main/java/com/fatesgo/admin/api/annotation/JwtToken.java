@@ -1,4 +1,4 @@
-package com.fatesgo.admin.api.config;
+package com.fatesgo.admin.api.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

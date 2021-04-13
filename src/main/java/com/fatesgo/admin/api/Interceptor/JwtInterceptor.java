@@ -1,6 +1,6 @@
 package com.fatesgo.admin.api.Interceptor;
 
-import com.fatesgo.admin.api.config.JwtToken;
+import com.fatesgo.admin.api.annotation.JwtToken;
 import com.fatesgo.admin.api.util.JwtUtil;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
