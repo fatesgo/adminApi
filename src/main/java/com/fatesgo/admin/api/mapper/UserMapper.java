@@ -8,18 +8,8 @@ import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Service;
 
 public interface UserMapper {
-    /**
-     *  通过id查询user对象
-     * @param id 主键
-     * @return user对象
-     */
-    @Select("select * from sys_user where id=#{id}")
-    User queryUserById(int id);
+    @Select("select * from sys_user where user_name=#{userName} and password=#{passWord}")
+    User Login(Object userName, Object passWord);
 
-
-    @Options(useGeneratedKeys = true, keyProperty = "id")
-    //options用来定义主键返回,keyProperty指定主键对应的属性
-    @Insert("insert into sys_user (userName) values (#{userName})")
-    int insert(User user);
 
 }
