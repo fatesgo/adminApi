@@ -3,11 +3,25 @@ package com.fatesgo.admin.api.config;
 import com.fatesgo.admin.api.Interceptor.JwtInterceptor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
+    /**
+     * 跨域配置
+     */
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+//        allowedOrigins在新得spring boot中会报错 使用allowedOriginPatterns
+        registry.addMapping("/**")
+                .allowedOriginPatterns("*")
+                .allowedMethods("GET","HEAD","POST","PUT","DELETE","OPTIONS")
+                .allowCredentials(true)
+                .maxAge(3600)
+                .allowedHeaders("*");
+    }
     /**
      * 添加jwt拦截器
      */

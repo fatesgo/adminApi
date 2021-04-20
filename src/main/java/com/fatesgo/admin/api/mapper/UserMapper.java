@@ -8,8 +8,8 @@ import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Service;
 
 public interface UserMapper {
-    @Select("select * from sys_user where user_name=#{userName} and password=#{passWord}")
-    User Login(Object userName, Object passWord);
+    @Select("select * from sys_user where user_name=#{username} and password=#{password}")
+    User Login(Object username, Object password);
 
 
 }
