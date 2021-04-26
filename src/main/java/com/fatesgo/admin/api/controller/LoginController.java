@@ -9,22 +9,23 @@ import com.fatesgo.admin.api.pojo.User;
 import com.fatesgo.admin.api.util.JwtUtil;
 import com.fatesgo.admin.api.util.RedisUtil;
 import com.google.code.kaptcha.impl.DefaultKaptcha;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import sun.misc.BASE64Encoder;
 
 import javax.imageio.ImageIO;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
-import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
 @RestController
 @RequestMapping("/api")
+@Api( tags = "登陆模块")
 public class LoginController {
 
 
@@ -34,9 +35,10 @@ public class LoginController {
     RedisUtil redisUtil;
     @Autowired(required = false)
     private UserMapper userMapper;
+
     ResponseResult result = new ResponseResult();
 
-
+    @ApiOperation(value = "获取验证码")
     @GetMapping("/defaultKaptcha")
     public ResponseResult defaultKaptcha(HttpServletResponse httpServletResponse)
             throws Exception {
@@ -105,7 +107,6 @@ public class LoginController {
     /**
      * 该接口需要带签名才能访问
      */
-    @JwtToken
     @GetMapping("/getMessage")
     public String getMessage(){
         return "你已通过验证";
