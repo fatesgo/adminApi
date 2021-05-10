@@ -3,6 +3,7 @@ package com.fatesgo.admin.api.controller;
 import com.alibaba.druid.util.StringUtils;
 import com.alibaba.fastjson.JSONObject;
 import com.fatesgo.admin.api.annotation.JwtToken;
+import com.fatesgo.admin.api.mapper.MenuMapper;
 import com.fatesgo.admin.api.mapper.UserMapper;
 import com.fatesgo.admin.api.pojo.ResponseResult;
 import com.fatesgo.admin.api.pojo.User;
@@ -20,6 +21,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -35,6 +37,7 @@ public class LoginController {
     RedisUtil redisUtil;
     @Autowired(required = false)
     private UserMapper userMapper;
+    private MenuMapper menuMapper;
 
     ResponseResult result = new ResponseResult();
 
@@ -53,21 +56,21 @@ public class LoginController {
             // 使用生成的验证码字符串返回一个BufferedImage对象并转为byte写入到byte数组中
             BufferedImage challenge = defaultKaptcha.createImage(createText);
             ImageIO.write(challenge, "jpg", jpegOutputStream);
+            // 定义response输出类型为image/jpeg类型，使用response输出流输出图片的byte数组
+            captchaChallengeAsJpeg = jpegOutputStream.toByteArray();
+            httpServletResponse.setHeader("Cache-Control", "no-store");
+            httpServletResponse.setHeader("Pragma", "no-cache");
+            httpServletResponse.setDateHeader("Expires", 0);
+            httpServletResponse.setContentType("image/jpeg");
+            Map<String, Object> map = new HashMap<>();
+            map.put("uuid",uuid);
+            map.put("img",new BASE64Encoder().encode(captchaChallengeAsJpeg));
+            result.success("成功",map);
+            return result;
         } catch (IllegalArgumentException e) {
             result.success(e.getMessage(),null);
             return result;
         }
-        // 定义response输出类型为image/jpeg类型，使用response输出流输出图片的byte数组
-        captchaChallengeAsJpeg = jpegOutputStream.toByteArray();
-        httpServletResponse.setHeader("Cache-Control", "no-store");
-        httpServletResponse.setHeader("Pragma", "no-cache");
-        httpServletResponse.setDateHeader("Expires", 0);
-        httpServletResponse.setContentType("image/jpeg");
-        Map<String, Object> map = new HashMap<>();
-        map.put("uuid",uuid);
-        map.put("img",new BASE64Encoder().encode(captchaChallengeAsJpeg));
-        result.success("成功",map);
-        return result;
     }
 
 
@@ -95,6 +98,8 @@ public class LoginController {
             Map<String, Object> map = new HashMap<>();
             map.put("token",token);
             map.put("user",user);
+            List<Map<String,Object>> menuList =menuMapper.getAllMenuByUserId(user.getId());
+            map.put("menu",menuList);
             result.success("成功",map);
             redisUtil.set("user_info"+user.getId().toString(),user,1800);
             redisUtil.set("user_token"+user.getId().toString(),token,1800);
