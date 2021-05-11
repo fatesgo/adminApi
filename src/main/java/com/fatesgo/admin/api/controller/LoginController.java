@@ -37,6 +37,7 @@ public class LoginController {
     RedisUtil redisUtil;
     @Autowired(required = false)
     private UserMapper userMapper;
+    @Autowired(required = false)
     private MenuMapper menuMapper;
 
     ResponseResult result = new ResponseResult();
@@ -87,21 +88,18 @@ public class LoginController {
              result.error("验证码错误，或已失效",null);
             return result;
         }
+        System.out.println(verificationCodeIn);
         User user = userMapper.Login(userObj.get("username"),userObj.get("password"));
         if(user==null){
             result.error("账号或者密码错误！",null);
             return result;
         }else{
-
             // 生成签名
             String token= JwtUtil.sign(user.getId());
             Map<String, Object> map = new HashMap<>();
             map.put("token",token);
-            map.put("user",user);
-            List<Map<String,Object>> menuList =menuMapper.getAllMenuByUserId(user.getId());
-            map.put("menu",menuList);
             result.success("成功",map);
-            redisUtil.set("user_info"+user.getId().toString(),user,1800);
+            redisUtil.set("user_info"+token,user,1800);
             redisUtil.set("user_token"+user.getId().toString(),token,1800);
             return result;
         }
@@ -109,11 +107,5 @@ public class LoginController {
 
 
 
-    /**
-     * 该接口需要带签名才能访问
-     */
-    @GetMapping("/getMessage")
-    public String getMessage(){
-        return "你已通过验证";
-    }
+
 }
