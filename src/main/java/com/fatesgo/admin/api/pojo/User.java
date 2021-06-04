@@ -2,6 +2,8 @@ package com.fatesgo.admin.api.pojo;
 
 public class User {
     private String id;
+    private String nickname;
+    private String avatar;
 
     public String getId() {
         return id;
@@ -11,15 +13,23 @@ public class User {
         this.id = id;
     }
 
-    public String getUsername() {
-        return username;
+    public String getNickname() {
+        return nickname;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
     }
 
-    private String username;
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
+
+
 
 
 

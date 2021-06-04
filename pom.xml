@@ -88,6 +88,12 @@
             <artifactId>knife4j-spring-boot-starter</artifactId>
             <version>2.0.7</version>
         </dependency>
+        <!-- websocket-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-websocket</artifactId>
+            <version>2.1.6.RELEASE</version>
+        </dependency>
 
     </dependencies>
 
