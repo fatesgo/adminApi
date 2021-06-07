@@ -18,10 +18,7 @@ public class Message {
     // 发送的类型 系统消息 ，用户消息
     public String type;
     // 在线状态
-    public String state;
-    // 发送时间
-    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
-    public Date time;
+    public Integer state;
 
     public String getId() {
         return id;
@@ -63,11 +60,11 @@ public class Message {
         this.type = type;
     }
 
-    public String getState() {
+    public Integer getState() {
         return state;
     }
 
-    public void setState(String state) {
+    public void setState(Integer state) {
         this.state = state;
     }
 
@@ -79,6 +76,9 @@ public class Message {
         this.time = time;
     }
 
+    // 发送时间
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
+    public Date time;
 
 
 

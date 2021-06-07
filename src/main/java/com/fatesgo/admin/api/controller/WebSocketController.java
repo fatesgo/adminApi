@@ -106,15 +106,13 @@ public class WebSocketController {
 //        broadcast(JSON.toJSONString(msg,true));
     }
 
-    // to=-1群发消息
+    // to_userId=-1群发消息
     @OnMessage
     public void onMessage(String message) throws IOException {
 
         System.out.println("server message" + message);
         Message msg = JSON.parseObject(message, Message.class);
-        int row =webSocketController.chatMapper.addChatMessage(msg.getTo_userId(),msg.getFrom_userId(),msg.getType(),msg.getContent().toString());
-        System.out.println(msg.getId());
-        msg.setTime(new Date());
+
         if (msg.getTo_userId().equals("-1")) {
             broadcast(JSON.toJSONString(msg, true));
         } else {
@@ -122,6 +120,13 @@ public class WebSocketController {
             Map map= new HashMap<String,Object>();
             map.put("msg",msg);
             map.put("userList",list);
+            Session session = sessionPools.get(msg.getTo_userId());
+            if(session==null){//对方离线，设置未读
+                msg.setState(0);
+            }
+            if(!"reading".equals(msg.getType())){
+                webSocketController.chatMapper.addChatMessage(msg.getTo_userId(),msg.getFrom_userId(),msg.getType(),msg.getContent().toString(),msg.getState());
+            }
             sendInfo(msg.getTo_userId(), JSON.toJSONString(map, true));
             sendInfo(msg.getFrom_userId(), JSON.toJSONString(map, true));
         }

@@ -2,15 +2,14 @@ package com.fatesgo.admin.api.controller;
 import com.alibaba.fastjson.JSON;
 import com.fatesgo.admin.api.mapper.ChatMapper;
 import com.fatesgo.admin.api.mapper.MenuMapper;
+import com.fatesgo.admin.api.pojo.Message;
 import com.fatesgo.admin.api.pojo.ResponseResult;
 import com.fatesgo.admin.api.pojo.User;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 import java.util.Map;
 
@@ -50,6 +49,14 @@ public class ChatController {
     public ResponseResult getUserListByUser(@PathVariable("userId") String userId) {
         List<User> list = chatMapper.getUserListByUser(userId);
         result.success("成功", list);
+        return result;
+    }
+
+    @ApiOperation(value = "设置对方发送的信息已经阅读")
+    @PutMapping("/setHaveRead")
+    public ResponseResult setHaveRead(@RequestBody Message message) {
+        int row = chatMapper.setHaveRead(message.getTo_userId(),message.getFrom_userId());
+        result.success("成功",row);
         return result;
     }
 }
