@@ -7,13 +7,13 @@ spring:
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
     username: root
-    password: 123456
+    password: mysql@fatesgo
     url: jdbc:mysql://www.fatesgo.com:3301/fatesgo?useUnicode=true&characterEncoding=utf-8&serverTimezone=GMT%2B8
     type: com.alibaba.druid.pool.DruidDataSource
 # 打印sql
 #logging:
 #  level:
-#        com.fatesgo.admin.api.mapper: debug
+#        com.fatesgo.mapper: debug
   # redis 配置
   redis:
     # 地址
